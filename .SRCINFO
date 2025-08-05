@@ -1,7 +1,7 @@
 pkgbase = grub-customizer-git
 	pkgdesc = A graphical grub2 settings manager (git version)
 	pkgver = r785.8408d98
-	pkgrel = 1
+	pkgrel = 2
 	url = git://git.launchpad.net/grub-customizer
 	arch = x86_64
 	license = GPL3

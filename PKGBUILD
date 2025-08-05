@@ -3,7 +3,7 @@
 _pkgname=grub-customizer
 pkgname=$_pkgname-git
 pkgver=r785.8408d98
-pkgrel=1
+pkgrel=2
 pkgdesc="A graphical grub2 settings manager (git version)"
 arch=('x86_64')
 url="git://git.launchpad.net/grub-customizer"
@@ -30,6 +30,7 @@ build() {
   cd $srcdir/$_pkgname
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=None \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         -Wno-dev \
         -B build
   make VERBOSE=1 -C build
