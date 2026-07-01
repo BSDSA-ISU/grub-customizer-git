@@ -1,43 +1,56 @@
-# Maintainer: gigas002 <gigas002@pm.me>
+# Maintainer: Aliee <bazartroy531@gmail.com> 
+# Contributor: ahmedmoselhi <ahmedmoselhi55@gmail.com> 
+# Contributor: gigas002 <gigas002@pm.me>
 
-_pkgname=grub-customizer
-pkgname=$_pkgname-git
-pkgver=r785.8408d98
-pkgrel=2
-pkgdesc="A graphical grub2 settings manager (git version)"
+pkgname='grub-customizer-git'
+_pkgname='grub-customizer'
+pkgver=r800.805e8d3
+_pkgver=5.2.8
+pkgrel=1
+pkgdesc='A graphical grub2 settings manager (git version)'
 arch=('x86_64')
-url="git://git.launchpad.net/grub-customizer"
-license=(GPL3)
+url="https://launchpad.net/grub-customizer"
+license=('GPL3')
 depends=(gcc-libs glibc grub gtkmm3 openssl)
-makedepends=(atkmm cairomm cmake glib2 glibmm gtk3 libarchive libsigc++
-pangomm)
+makedepends=(atkmm cairomm cmake glib2 glibmm gtk3 libarchive libsigc++ pangomm)
 optdepends=(
   'hwinfo: for additional hardware information'
   'polkit: for authorization'
   'xorg-xhost: for authorization on xorg-xwayland'
 )
-provides=("$_pkgname")
-conflicts=('grub-customizer')
-source=("$url")
-sha256sums=('SKIP')
+provides=($_pkgname)
+conflicts=($_pkgname)
+source=(
+    git+https://git.launchpad.net/$_pkgname
+    "grub.cfg"
+)
+sha256sums=(
+   "SKIP"
+   "47c6de7e8f77d843dd79547b6ea34d5f485271cdf86fa3770f67c59359d2e78b"
+)
 
 pkgver() {
-	cd $srcdir/$_pkgname
-  	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  cd ${_pkgname}
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-  cd $srcdir/$_pkgname
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=None \
-        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         -Wno-dev \
-        -B build
+        -B build \
+        -S $_pkgname
   make VERBOSE=1 -C build
 }
 
 package() {
-  make install DESTDIR="$pkgdir" -C $srcdir/$_pkgname/build
+  depends+=(libarchive.so libatkmm-1.6.so libcairomm-1.0.so libgdk-3.so
+  libglib-2.0.so libglibmm-2.4.so libgtkmm-3.0.so libpangomm-1.4.so
+  libsigc-2.0.so)
+
+  make install DESTDIR="${pkgdir}" -C build
+  # configuration
+  install -vDm 644 grub.cfg -t "$pkgdir/etc/$_pkgname/"
   # additional documentation
-  install -vDm 644 $srcdir/$_pkgname/{changelog,README} -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -vDm 644 $_pkgname/{changelog,README} -t "$pkgdir/usr/share/doc/$_pkgname/"
 }
