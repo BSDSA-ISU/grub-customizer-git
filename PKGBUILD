@@ -21,7 +21,7 @@ optdepends=(
 provides=($_pkgname)
 conflicts=($_pkgname)
 source=(
-    git+https://git.launchpad.net/$_pkgname
+    ${pkgname}::git+https://git.launchpad.net/${_pkgname}
     "grub.cfg"
 )
 sha256sums=(
