@@ -50,7 +50,7 @@ package() {
 
   make install DESTDIR="${pkgdir}" -C build
   # configuration
-  install -vDm 644 grub.cfg -t "$pkgdir/etc/$_pkgname/"
+  install -vDm 644 grub.cfg -t "$pkgdir/etc/$pkgname/"
   # additional documentation
-  install -vDm 644 $_pkgname/{changelog,README} -t "$pkgdir/usr/share/doc/$_pkgname/"
+  install -vDm 644 $_pkgname/{changelog,README} -t "$pkgdir/usr/share/doc/$pkgname/"
 }
