@@ -39,7 +39,7 @@ build() {
         -DCMAKE_BUILD_TYPE=None \
         -Wno-dev \
         -B build \
-        -S $_pkgname
+        -S $pkgname
   make VERBOSE=1 -C build
 }
 
